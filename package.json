@@ -1,0 +1,34 @@
+{
+  "name": "nft-media-importer",
+  "version": "1.0.0",
+  "description": "Import NFT media directly from Web3 wallets into your Framer project",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "watch": "tsc -w"
+  },
+  "dependencies": {
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/providers": "^5.7.2",
+    "@headlessui/react": "^1.7.17",
+    "@moralisweb3/common-evm-utils": "^2.25.1",
+    "ethers": "^5.7.2",
+    "moralis": "^2.25.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-loading-icons": "^1.1.0",
+    "react-masonry-css": "^1.0.16"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.10",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^4.9.5",
+    "vite": "^5.4.11"
+  }
+}

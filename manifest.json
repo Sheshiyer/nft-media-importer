@@ -1,0 +1,34 @@
+{
+  "name": "NFT Media Importer",
+  "id": "nft-media-importer",
+  "version": "1.0.0",
+  "description": "Import NFT media directly from Web3 wallets into your Framer project",
+  "author": "Sheshi Yer",
+  "main": "dist/index.es.js",
+  "style": "dist/style.css",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sheshiyer/nft-media-importer"
+  },
+  "keywords": [
+    "framer",
+    "framer-plugin",
+    "nft",
+    "web3",
+    "metamask",
+    "ethereum",
+    "polygon",
+    "media",
+    "import"
+  ],
+  "bugs": {
+    "url": "https://github.com/sheshiyer/nft-media-importer/issues"
+  },
+  "license": "MIT",
+  "framer": {
+    "id": "nft-media-importer",
+    "displayName": "NFT Media Importer",
+    "type": "plugin",
+    "icon": "🖼️"
+  }
+}

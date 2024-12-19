@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for the NFT Media Importer plugin */
+@layer components {
+  .nft-btn {
+    @apply nft-px-4 nft-py-2 nft-rounded-lg nft-transition-colors nft-duration-200;
+  }
+
+  .nft-btn-primary {
+    @apply nft-btn nft-bg-blue-600 nft-text-white hover:nft-bg-blue-700;
+  }
+
+  .nft-btn-secondary {
+    @apply nft-btn nft-bg-gray-100 nft-text-gray-700 hover:nft-bg-gray-200;
+  }
+
+  .nft-card {
+    @apply nft-rounded-lg nft-overflow-hidden nft-shadow-lg nft-transition-transform hover:nft-scale-105;
+  }
+
+  .nft-card-selected {
+    @apply nft-ring-4 nft-ring-blue-500;
+  }
+
+  .nft-loading-overlay {
+    @apply nft-fixed nft-inset-0 nft-bg-black/30 nft-flex nft-items-center nft-justify-center;
+  }
+
+  .nft-masonry-grid {
+    @apply nft-flex nft--ml-4 nft-w-auto;
+  }
+
+  .nft-masonry-column {
+    @apply nft-pl-4 nft-bg-clip-padding;
+  }
+
+  .nft-image-container {
+    @apply nft-relative nft-overflow-hidden nft-aspect-square;
+  }
+
+  .nft-image {
+    @apply nft-w-full nft-h-full nft-object-cover;
+  }
+
+  .nft-image-overlay {
+    @apply nft-absolute nft-bottom-0 nft-left-0 nft-right-0 nft-bg-gradient-to-t nft-from-black/70 nft-to-transparent nft-p-4;
+  }
+
+  .nft-title {
+    @apply nft-text-white nft-font-medium nft-truncate;
+  }
+
+  .nft-subtitle {
+    @apply nft-text-white/80 nft-text-sm nft-truncate;
+  }
+}
