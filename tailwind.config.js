@@ -11,6 +11,14 @@ module.exports = {
       minHeight: {
         '400': '400px',
       },
+      colors: {
+        'nft-indigo': '#6366f1',
+        'nft-purple': '#8b5cf6',
+        'nft-pink': '#d946ef',
+      },
+      backgroundImage: {
+        'gradient-nft': 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%)',
+      },
     },
   },
   plugins: [],

@@ -1,75 +1,63 @@
+declare module '*.svg' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.svg?url' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.png' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.png?url' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.jpg' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.jpg?url' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.jpeg' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.jpeg?url' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.gif' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.gif?url' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.webp' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.webp?url' {
+  const content: string;
+  export default content;
+}
+
 interface Window {
-  ethereum: any;
-  $framer: {
-    addMedia: (options: {
-      name: string;
-      url: string;
-      type: 'image' | 'video' | 'audio';
-    }) => Promise<void>;
-  };
-}
-
-interface NFTMetadata {
-  tokenId: string;
-  name?: string;
-  description?: string;
-  image: string;
-  contract: {
-    address: string;
-    name?: string;
-  };
-}
-
-interface NFTGridProps {
-  nfts: NFTMetadata[];
-  onSelect: (nft: NFTMetadata) => void;
-}
-
-// Moralis types
-declare module '@moralisweb3/common-evm-utils' {
-  export class EvmChain {
-    static readonly ETHEREUM: EvmChain;
-    static readonly POLYGON: EvmChain;
-    static readonly BSC: EvmChain;
-  }
-}
-
-declare module 'moralis' {
-  export interface MoralisNFT {
-    tokenId: string;
-    tokenAddress: {
-      lowercase: string;
-    };
-    name?: string;
-    metadata?: {
-      description?: string;
-      image?: string;
-      image_url?: string;
-      animation_url?: string;
-    };
-    contractType?: string;
-    media?: {
-      original_media_url?: string;
-      preview_image_url?: string;
-    };
-  }
-
-  export interface EvmApi {
-    nft: {
-      getWalletNFTs(params: {
-        address: string;
-        chain: any;
-        mediaItems?: boolean;
-        normalizeMetadata?: boolean;
-        tokenAddresses?: string[];
-        tokenId?: string;
-      }): Promise<{
-        result: MoralisNFT[];
-      }>;
-    };
-  }
-
-  export const EvmApi: EvmApi;
-
-  export function start(config: { apiKey: string }): Promise<void>;
+  ethereum?: any;
 }

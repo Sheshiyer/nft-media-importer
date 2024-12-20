@@ -46,7 +46,7 @@ export function NFTMediaImporter() {
       // Verify ownership before importing
       const isOwner = await verifyNFTOwnership(
         state.address,
-        state.selectedNft.contract.address,
+        state.selectedNft.contract?.address || '',
         state.selectedNft.tokenId
       );
 
@@ -56,7 +56,7 @@ export function NFTMediaImporter() {
       }
 
       // Import to Framer's media library
-      await window.$framer.addMedia({
+      await window.$framer?.addMedia({
         name: state.selectedNft.name || `NFT #${state.selectedNft.tokenId}`,
         url: state.selectedNft.image,
         type: 'image'
@@ -82,43 +82,85 @@ export function NFTMediaImporter() {
     }
   }, [state.address, fetchNFTs]);
 
-  if (!state.provider || !state.address) {
-    return <MetaMaskLogin onConnect={handleConnect} />;
-  }
+  const renderContent = () => {
+    if (!state.provider || !state.address) {
+      return (
+        <div className="nft-flex nft-flex-col nft-items-center">
+          <MetaMaskLogin onConnect={handleConnect} />
+        </div>
+      );
+    }
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+    if (loading) {
+      return <LoadingScreen />;
+    }
 
-  if (error) {
+    if (error) {
+      return (
+        <div className="nft-p-8 nft-text-center">
+          <div className="nft-text-red-600 nft-mb-4">Error: {error}</div>
+          <button
+            onClick={handleRetry}
+            className="nft-btn-primary"
+          >
+            Retry
+          </button>
+        </div>
+      );
+    }
+
     return (
-      <div className="nft-p-8 nft-text-center">
-        <div className="nft-text-red-600 nft-mb-4">Error: {error}</div>
-        <button
-          onClick={handleRetry}
-          className="nft-btn-primary"
-        >
-          Retry
-        </button>
-      </div>
+      <>
+        <NFTGrid nfts={nfts} onSelect={handleNFTSelect} />
+        <ConfirmationScreen
+          nft={state.selectedNft}
+          isOpen={showConfirmation}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+      </>
     );
-  }
+  };
 
   return (
-    <>
-      <NFTGrid nfts={nfts} onSelect={handleNFTSelect} />
-      <ConfirmationScreen
-        nft={state.selectedNft}
-        isOpen={showConfirmation}
-        onConfirm={handleConfirm}
-        onCancel={handleCancel}
-      />
-    </>
+    <div className="nft-page-bg nft-p-6">
+      <div className="nft-max-w-6xl nft-mx-auto">
+        {renderContent()}
+      </div>
+    </div>
   );
 }
 
 // Export for Framer
 export default {
   title: "NFT Media Importer",
-  component: NFTMediaImporter
+  component: NFTMediaImporter,
+  
+  // Canvas support
+  canvas: {
+    width: 800,
+    height: 600,
+    position: "relative"
+  },
+
+  // Collection support
+  collection: {
+    type: "managed" as const,
+    modes: ["grid", "list"],
+    defaultMode: "grid",
+    itemSize: { width: 200, height: 200 },
+    gap: 16,
+    padding: 16,
+    configure: async (collection: FramerCollectionConfig): Promise<FramerCollectionConfig> => {
+      return {
+        mode: collection.mode || "grid",
+        itemSize: collection.itemSize || { width: 200, height: 200 },
+        gap: collection.gap || 16,
+        padding: collection.padding || 16
+      };
+    },
+    sync: async (collection: FramerCollectionConfig): Promise<FramerCollectionConfig> => {
+      return collection;
+    }
+  }
 };

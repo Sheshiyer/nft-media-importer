@@ -5,6 +5,8 @@ import { NFTGrid } from './components/NFTGrid';
 import { ConfirmationScreen } from './components/ConfirmationScreen';
 import { useNFTFetcher } from './hooks/useNFTFetcher';
 import './styles.css';
+const Logo = () => (React.createElement("div", { className: "nft-logo-container" },
+    React.createElement("img", { src: "./assets/logo.svg", alt: "NFT Media Importer", className: "nft-logo" })));
 export function NFTMediaImporter() {
     const [state, setState] = useState({
         provider: null,
@@ -63,25 +65,59 @@ export function NFTMediaImporter() {
             fetchNFTs(state.address);
         }
     }, [state.address, fetchNFTs]);
-    if (!state.provider || !state.address) {
-        return React.createElement(MetaMaskLogin, { onConnect: handleConnect });
-    }
-    if (loading) {
-        return React.createElement(LoadingScreen, null);
-    }
-    if (error) {
-        return (React.createElement("div", { className: "nft-p-8 nft-text-center" },
-            React.createElement("div", { className: "nft-text-red-600 nft-mb-4" },
-                "Error: ",
-                error),
-            React.createElement("button", { onClick: handleRetry, className: "nft-btn-primary" }, "Retry")));
-    }
-    return (React.createElement(React.Fragment, null,
-        React.createElement(NFTGrid, { nfts: nfts, onSelect: handleNFTSelect }),
-        React.createElement(ConfirmationScreen, { nft: state.selectedNft, isOpen: showConfirmation, onConfirm: handleConfirm, onCancel: handleCancel })));
+    const renderContent = () => {
+        if (!state.provider || !state.address) {
+            return (React.createElement("div", { className: "nft-flex nft-flex-col nft-items-center" },
+                React.createElement(Logo, null),
+                React.createElement(MetaMaskLogin, { onConnect: handleConnect })));
+        }
+        if (loading) {
+            return React.createElement(LoadingScreen, null);
+        }
+        if (error) {
+            return (React.createElement("div", { className: "nft-p-8 nft-text-center" },
+                React.createElement(Logo, null),
+                React.createElement("div", { className: "nft-text-red-600 nft-mb-4" },
+                    "Error: ",
+                    error),
+                React.createElement("button", { onClick: handleRetry, className: "nft-btn-primary" }, "Retry")));
+        }
+        return (React.createElement(React.Fragment, null,
+            React.createElement(Logo, null),
+            React.createElement(NFTGrid, { nfts: nfts, onSelect: handleNFTSelect }),
+            React.createElement(ConfirmationScreen, { nft: state.selectedNft, isOpen: showConfirmation, onConfirm: handleConfirm, onCancel: handleCancel })));
+    };
+    return (React.createElement("div", { className: "nft-page-bg nft-p-6" },
+        React.createElement("div", { className: "nft-max-w-6xl nft-mx-auto" }, renderContent())));
 }
 // Export for Framer
 export default {
     title: "NFT Media Importer",
-    component: NFTMediaImporter
+    component: NFTMediaImporter,
+    // Canvas support
+    canvas: {
+        width: 800,
+        height: 600,
+        position: "relative"
+    },
+    // Collection support
+    collection: {
+        type: "managed",
+        modes: ["grid", "list"],
+        defaultMode: "grid",
+        itemSize: { width: 200, height: 200 },
+        gap: 16,
+        padding: 16,
+        configure: async (collection) => {
+            return {
+                mode: collection.mode || "grid",
+                itemSize: collection.itemSize || { width: 200, height: 200 },
+                gap: collection.gap || 16,
+                padding: collection.padding || 16
+            };
+        },
+        sync: async (collection) => {
+            return collection;
+        }
+    }
 };
