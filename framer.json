@@ -1,0 +1,18 @@
+{
+    "id": "nftmed",
+    "name": "NFT Media Importer",
+    "displayName": "NFT Media Importer",
+    "description": "Import NFT media directly from Web3 wallets into your Framer project",
+    "author": "Sheshi Yer",
+    "version": "1.0.0",
+    "type": "plugin",
+    "icon": "🖼️",
+    "modes": ["image", "editImage"],
+    "capabilities": {
+        "canvas": true,
+        "collection": {
+            "modes": ["grid", "list"],
+            "managedCollection": true
+        }
+    }
+}

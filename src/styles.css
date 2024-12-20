@@ -2,57 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles for the NFT Media Importer plugin */
-@layer components {
-  .nft-btn {
-    @apply nft-px-4 nft-py-2 nft-rounded-lg nft-transition-colors nft-duration-200;
-  }
+.nft-page-bg {
+  @apply nft-min-h-screen nft-bg-gradient-to-br nft-from-gray-900 nft-to-gray-800;
+}
 
-  .nft-btn-primary {
-    @apply nft-btn nft-bg-blue-600 nft-text-white hover:nft-bg-blue-700;
-  }
+.nft-btn-primary {
+  @apply nft-bg-gradient-to-r nft-from-purple-500 nft-to-blue-500 
+    nft-text-white nft-font-semibold nft-py-2 nft-px-6 nft-rounded-lg 
+    hover:nft-from-purple-600 hover:nft-to-blue-600 
+    nft-transition-all nft-duration-200;
+}
 
-  .nft-btn-secondary {
-    @apply nft-btn nft-bg-gray-100 nft-text-gray-700 hover:nft-bg-gray-200;
-  }
+.nft-gradient-text {
+  @apply nft-bg-clip-text nft-text-transparent 
+    nft-bg-gradient-to-r nft-from-purple-400 nft-to-blue-500;
+}
 
-  .nft-card {
-    @apply nft-rounded-lg nft-overflow-hidden nft-shadow-lg nft-transition-transform hover:nft-scale-105;
-  }
+.nft-logo-container {
+  @apply nft-flex nft-justify-center nft-mb-6;
+}
 
-  .nft-card-selected {
-    @apply nft-ring-4 nft-ring-blue-500;
-  }
+.nft-logo {
+  @apply nft-h-12 nft-w-auto nft-object-contain;
+}
 
-  .nft-loading-overlay {
-    @apply nft-fixed nft-inset-0 nft-bg-black/30 nft-flex nft-items-center nft-justify-center;
-  }
+/* NFT Grid Styles */
+.nft-grid {
+  display: grid;
+  @apply nft-gap-4 nft-p-4;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
 
-  .nft-masonry-grid {
-    @apply nft-flex nft--ml-4 nft-w-auto;
-  }
+.nft-card {
+  @apply nft-bg-white/5 nft-rounded-xl nft-overflow-hidden 
+    nft-transition-transform hover:nft-scale-105 
+    nft-cursor-pointer nft-backdrop-blur-sm;
+}
 
-  .nft-masonry-column {
-    @apply nft-pl-4 nft-bg-clip-padding;
-  }
+.nft-card-image {
+  @apply nft-w-full nft-h-48 nft-object-cover;
+}
 
-  .nft-image-container {
-    @apply nft-relative nft-overflow-hidden nft-aspect-square;
-  }
+.nft-card-content {
+  @apply nft-p-4;
+}
 
-  .nft-image {
-    @apply nft-w-full nft-h-full nft-object-cover;
-  }
+.nft-card-title {
+  @apply nft-text-lg nft-font-semibold nft-text-white nft-mb-2;
+}
 
-  .nft-image-overlay {
-    @apply nft-absolute nft-bottom-0 nft-left-0 nft-right-0 nft-bg-gradient-to-t nft-from-black/70 nft-to-transparent nft-p-4;
-  }
+.nft-card-subtitle {
+  @apply nft-text-sm nft-text-gray-400;
+}
 
-  .nft-title {
-    @apply nft-text-white nft-font-medium nft-truncate;
-  }
+/* Loading Animation */
+.nft-loading-spinner {
+  @apply nft-animate-spin nft-rounded-full nft-h-32 nft-w-32 
+    nft-border-b-2 nft-border-white/20;
+}
 
-  .nft-subtitle {
-    @apply nft-text-white/80 nft-text-sm nft-truncate;
-  }
+/* Modal Styles */
+.nft-modal-overlay {
+  @apply nft-fixed nft-inset-0 nft-bg-black/50 nft-backdrop-blur-sm 
+    nft-flex nft-items-center nft-justify-center;
+}
+
+.nft-modal {
+  @apply nft-bg-gray-800 nft-rounded-2xl nft-p-6 nft-max-w-md nft-w-full 
+    nft-mx-4 nft-shadow-xl;
+}
+
+.nft-modal-header {
+  @apply nft-text-xl nft-font-bold nft-mb-4;
+}
+
+.nft-modal-content {
+  @apply nft-space-y-4;
+}
+
+.nft-modal-footer {
+  @apply nft-flex nft-justify-end nft-space-x-4 nft-mt-6;
+}
+
+.nft-btn-secondary {
+  @apply nft-bg-gray-700 nft-text-white nft-font-semibold 
+    nft-py-2 nft-px-6 nft-rounded-lg 
+    hover:nft-bg-gray-600 nft-transition-colors;
+}
+
+/* Moralis Logo */
+.nft-moralis-logo {
+  @apply nft-h-8 nft-w-auto nft-object-contain;
+}
+
+.nft-moralis-container {
+  @apply nft-bg-white/5 nft-rounded-xl nft-p-4 nft-backdrop-blur-sm 
+    nft-flex nft-items-center nft-justify-center;
 }

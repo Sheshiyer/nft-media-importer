@@ -24,22 +24,22 @@ export const MetaMaskLogin: React.FC<MetaMaskLoginProps> = ({ onConnect }) => {
 
   return (
     <div className="nft-flex nft-flex-col nft-items-center nft-justify-center nft-min-h-400 nft-p-8 nft-space-y-6">
-      <div className="nft-w-24 nft-h-24">
+      <div className="nft-w-24 nft-h-24 nft-bg-white/10 nft-rounded-2xl nft-p-4 nft-backdrop-blur-sm">
         <img 
-          src="https://raw.githubusercontent.com/MetaMask/brand-resources/master/SVG/metamask-fox.svg"
-          alt="MetaMask Logo"
+          src="/src/assets/image.png"
+          alt="Project Logo"
           className="nft-w-full nft-h-full nft-object-contain"
         />
       </div>
-      <h1 className="nft-text-2xl nft-font-bold nft-text-gray-800">
+      <h1 className="nft-text-3xl nft-font-bold nft-gradient-text">
         NFT Media Importer
       </h1>
-      <p className="nft-text-gray-600 nft-text-center nft-max-w-md">
+      <p className="nft-text-gray-300 nft-text-center nft-max-w-md nft-opacity-80">
         Import your NFT media directly into Framer. Connect your wallet to get started.
       </p>
       <button
         onClick={connectWallet}
-        className="nft-btn-primary nft-flex nft-items-center nft-space-x-2"
+        className="nft-btn-primary nft-flex nft-items-center nft-space-x-2 nft-shadow-lg hover:nft-shadow-xl nft-transition-all"
       >
         <svg
           className="nft-w-5 nft-h-5"
@@ -56,6 +56,16 @@ export const MetaMaskLogin: React.FC<MetaMaskLoginProps> = ({ onConnect }) => {
         </svg>
         <span>Connect MetaMask</span>
       </button>
+      <div className="nft-moralis-container nft-mt-8">
+        <div className="nft-flex nft-flex-col nft-items-center nft-space-y-2">
+          <span className="nft-text-gray-400 nft-text-sm">Powered by</span>
+          <img 
+            src="/src/assets/moralis-logo.svg"
+            alt="Powered by Moralis"
+            className="nft-h-10 nft-w-auto"
+          />
+        </div>
+      </div>
     </div>
   );
 };

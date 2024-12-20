@@ -2,7 +2,7 @@
   "name": "nft-media-importer",
   "version": "1.0.0",
   "description": "Import NFT media directly from Web3 wallets into your Framer project",
-  "main": "dist/index.js",
+  "main": "dist/index.es.js",
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite",
@@ -26,9 +26,12 @@
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.16",
+    "buffer": "^6.0.3",
     "postcss": "^8.4.32",
+    "stream-browserify": "^3.0.0",
     "tailwindcss": "^3.4.0",
     "typescript": "^4.9.5",
-    "vite": "^5.4.11"
+    "vite": "^5.4.11",
+    "vite-plugin-svgr": "^4.3.0"
   }
 }

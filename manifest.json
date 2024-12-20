@@ -29,6 +29,13 @@
     "id": "nft-media-importer",
     "displayName": "NFT Media Importer",
     "type": "plugin",
-    "icon": "🖼️"
+    "icon": "🖼️",
+    "capabilities": {
+      "canvas": true,
+      "collection": {
+        "modes": ["grid", "list"],
+        "managedCollection": true
+      }
+    }
   }
 }
