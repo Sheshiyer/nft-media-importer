@@ -26,7 +26,7 @@ export const MetaMaskLogin: React.FC<MetaMaskLoginProps> = ({ onConnect }) => {
     <div className="nft-flex nft-flex-col nft-items-center nft-justify-center nft-min-h-400 nft-p-8 nft-space-y-6">
       <div className="nft-w-24 nft-h-24 nft-bg-white/10 nft-rounded-2xl nft-p-4 nft-backdrop-blur-sm">
         <img 
-          src="/src/assets/image.png"
+          src="/image.png"
           alt="Project Logo"
           className="nft-w-full nft-h-full nft-object-contain"
         />
@@ -60,7 +60,7 @@ export const MetaMaskLogin: React.FC<MetaMaskLoginProps> = ({ onConnect }) => {
         <div className="nft-flex nft-flex-col nft-items-center nft-space-y-2">
           <span className="nft-text-gray-400 nft-text-sm">Powered by</span>
           <img 
-            src="/src/assets/moralis-logo.svg"
+            src="/moralis-logo.svg"
             alt="Powered by Moralis"
             className="nft-h-10 nft-w-auto"
           />

@@ -1,94 +1,77 @@
-import Moralis, { MoralisNFT } from 'moralis';
+import Moralis from 'moralis';
 import { EvmChain } from '@moralisweb3/common-evm-utils';
-import { config } from '../config';
+import type { NFTMetadata } from '../types';
 
-class MoralisService {
-  private static instance: MoralisService;
-  private initialized = false;
-
-  private constructor() {}
-
-  public static getInstance(): MoralisService {
-    if (!MoralisService.instance) {
-      MoralisService.instance = new MoralisService();
+export class MoralisService {
+  constructor() {
+    // Initialize Moralis
+    if (!Moralis.Core.isStarted) {
+      Moralis.start({
+        apiKey: process.env.MORALIS_API_KEY || '',
+      });
     }
-    return MoralisService.instance;
   }
 
-  public async init() {
-    if (!this.initialized) {
-      if (!config.MORALIS_API_KEY) {
-        throw new Error('MORALIS_API_KEY is not set in config');
+  private async parseNFTMetadata(nft: any): Promise<NFTMetadata> {
+    let metadata = nft.metadata;
+    if (typeof metadata === 'string') {
+      try {
+        metadata = JSON.parse(metadata);
+      } catch {
+        metadata = {};
       }
-      
-      await Moralis.start({
-        apiKey: config.MORALIS_API_KEY,
-      });
-      
-      this.initialized = true;
     }
+
+    return {
+      tokenId: nft.tokenId,
+      name: metadata?.name || nft.name || `NFT #${nft.tokenId}`,
+      description: metadata?.description || '',
+      image: metadata?.image || nft.tokenUri || '',
+      contract: {
+        address: nft.tokenAddress,
+      },
+      metadata: metadata,
+    };
   }
 
   public async getNFTs(address: string, chain = EvmChain.ETHEREUM): Promise<NFTMetadata[]> {
-    await this.init();
+    try {
+      const response = await Moralis.EvmApi.nft.getWalletNFTs({
+        address,
+        chain,
+      });
 
-    const response = await Moralis.EvmApi.nft.getWalletNFTs({
-      address,
-      chain,
-      mediaItems: true,
-      normalizeMetadata: true
-    });
+      const nfts = await Promise.all(
+        response.result.map(nft => this.parseNFTMetadata(nft))
+      );
 
-    return response.result.map(nft => ({
-      tokenId: nft.tokenId,
-      name: nft.name || `NFT #${nft.tokenId}`,
-      description: nft.metadata?.description || '',
-      image: this.getValidImageUrl(nft),
-      contract: {
-        address: nft.tokenAddress.lowercase,
-        name: nft.contractType
-      }
-    }));
+      return nfts;
+    } catch (error) {
+      console.error('Error fetching NFTs:', error);
+      throw error;
+    }
   }
 
-  private getValidImageUrl(nft: MoralisNFT): string {
-    // Check various possible image sources in order of preference
-    const possibleSources = [
-      nft.metadata?.image,
-      nft.metadata?.image_url,
-      nft.metadata?.animation_url,
-      nft.media?.original_media_url,
-      nft.media?.preview_image_url,
-      config.DEFAULT_PLACEHOLDER
-    ];
-
-    // Return the first valid URL found
-    return possibleSources.find(url => url && typeof url === 'string') || 
-           config.DEFAULT_PLACEHOLDER;
-  }
-
-  public async isValidNFTOwner(
+  public async verifyNFTOwnership(
     address: string,
     contractAddress: string,
     tokenId: string,
     chain = EvmChain.ETHEREUM
   ): Promise<boolean> {
-    await this.init();
-
     try {
       const response = await Moralis.EvmApi.nft.getWalletNFTs({
         address,
         chain,
         tokenAddresses: [contractAddress],
-        tokenId
       });
 
-      return response.result.length > 0;
+      return response.result.some(nft => 
+        nft.tokenAddress.lowercase === contractAddress.toLowerCase() &&
+        nft.tokenId === tokenId
+      );
     } catch (error) {
       console.error('Error verifying NFT ownership:', error);
       return false;
     }
   }
 }
-
-export const moralisService = MoralisService.getInstance();

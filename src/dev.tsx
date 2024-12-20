@@ -10,7 +10,20 @@ if (!window.$framer) {
   window.$framer = {
     addMedia: async ({ name, url, type }) => {
       console.log('Mock addMedia called with:', { name, url, type });
+      return Promise.resolve();
     }
+  };
+}
+
+// Mock require function
+if (typeof window !== 'undefined' && !window.require) {
+  (window as any).require = function mockRequire() {
+    return {
+      resolve: () => '',
+      cache: {},
+      extensions: {},
+      main: null
+    };
   };
 }
 

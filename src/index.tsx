@@ -5,6 +5,7 @@ import { LoadingScreen } from './components/LoadingScreen';
 import { NFTGrid } from './components/NFTGrid';
 import { ConfirmationScreen } from './components/ConfirmationScreen';
 import { useNFTFetcher } from './hooks/useNFTFetcher';
+import type { NFTMetadata, FramerCollectionConfig } from './types';
 import './styles.css';
 
 interface PluginState {
@@ -58,7 +59,7 @@ export function NFTMediaImporter() {
       // Import to Framer's media library
       await window.$framer?.addMedia({
         name: state.selectedNft.name || `NFT #${state.selectedNft.tokenId}`,
-        url: state.selectedNft.image,
+        url: state.selectedNft.image || '',
         type: 'image'
       });
 

@@ -1,63 +1,50 @@
-declare module '*.svg' {
-  const content: string;
-  export default content;
+interface NFTMetadata {
+  tokenId: string;
+  name?: string;
+  description?: string;
+  image?: string;
+  contract?: {
+    address: string;
+  };
+  metadata?: {
+    description?: string;
+    image?: string;
+    name?: string;
+  };
 }
 
-declare module '*.svg?url' {
-  const content: string;
-  export default content;
+interface FramerCollectionConfig {
+  mode?: 'grid' | 'list';
+  itemSize?: {
+    width: number;
+    height: number;
+  };
+  gap?: number;
+  padding?: number;
 }
 
-declare module '*.png' {
-  const content: string;
-  export default content;
+interface FramerAddMediaOptions {
+  name: string;
+  url: string;
+  type: string;
 }
 
-declare module '*.png?url' {
-  const content: string;
-  export default content;
+interface FramerAPI {
+  addMedia: (options: FramerAddMediaOptions) => Promise<void>;
 }
 
-declare module '*.jpg' {
-  const content: string;
-  export default content;
+interface MetaMaskEthereum {
+  request: (args: { method: string; params?: any[] }) => Promise<any>;
+  on: (event: string, callback: (accounts: string[]) => void) => void;
+  removeListener: (event: string, callback: (accounts: string[]) => void) => void;
+  isMetaMask?: boolean;
 }
 
-declare module '*.jpg?url' {
-  const content: string;
-  export default content;
+declare global {
+  interface Window {
+    $framer?: FramerAPI;
+    ethereum?: MetaMaskEthereum;
+  }
 }
 
-declare module '*.jpeg' {
-  const content: string;
-  export default content;
-}
-
-declare module '*.jpeg?url' {
-  const content: string;
-  export default content;
-}
-
-declare module '*.gif' {
-  const content: string;
-  export default content;
-}
-
-declare module '*.gif?url' {
-  const content: string;
-  export default content;
-}
-
-declare module '*.webp' {
-  const content: string;
-  export default content;
-}
-
-declare module '*.webp?url' {
-  const content: string;
-  export default content;
-}
-
-interface Window {
-  ethereum?: any;
-}
+export type { NFTMetadata, FramerCollectionConfig, FramerAddMediaOptions, FramerAPI, MetaMaskEthereum };

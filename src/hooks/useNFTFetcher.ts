@@ -1,32 +1,24 @@
 import { useState, useCallback } from 'react';
-import { EvmChain } from '@moralisweb3/common-evm-utils';
-import { moralisService } from '../utils/moralisService';
+import type { NFTMetadata } from '../types';
+import { MoralisService } from '../utils/moralisService';
+
+const moralisService = new MoralisService();
 
 export const useNFTFetcher = () => {
+  const [nfts, setNfts] = useState<NFTMetadata[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [nfts, setNfts] = useState<NFTMetadata[]>([]);
 
   const fetchNFTs = useCallback(async (address: string) => {
-    setLoading(true);
-    setError(null);
-    
     try {
-      // Get NFTs from both Ethereum and Polygon networks
-      const [ethereumNFTs, polygonNFTs] = await Promise.all([
-        moralisService.getNFTs(address, EvmChain.ETHEREUM),
-        moralisService.getNFTs(address, EvmChain.POLYGON)
-      ]);
-
-      // Combine and filter out NFTs without valid media
-      const allNFTs = [...ethereumNFTs, ...polygonNFTs]
-        .filter(nft => nft.image && nft.image !== 'https://via.placeholder.com/400x400?text=No+Image');
-
-      setNfts(allNFTs);
+      setLoading(true);
+      setError(null);
+      const fetchedNFTs = await moralisService.getNFTs(address);
+      setNfts(fetchedNFTs);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch NFTs';
-      setError(errorMessage);
       console.error('Error fetching NFTs:', err);
+      setError('Failed to fetch NFTs. Please try again.');
+      setNfts([]);
     } finally {
       setLoading(false);
     }
@@ -38,11 +30,7 @@ export const useNFTFetcher = () => {
     tokenId: string
   ) => {
     try {
-      return await moralisService.isValidNFTOwner(
-        address,
-        contractAddress,
-        tokenId
-      );
+      return await moralisService.verifyNFTOwnership(address, contractAddress, tokenId);
     } catch (err) {
       console.error('Error verifying NFT ownership:', err);
       return false;
@@ -54,6 +42,6 @@ export const useNFTFetcher = () => {
     loading,
     error,
     fetchNFTs,
-    verifyNFTOwnership
+    verifyNFTOwnership,
   };
 };

@@ -3,10 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NFT Media Importer - Development</title>
+    <title>NFT Media Importer</title>
     <script>
       window.global = window;
-      window.Buffer = require('buffer').Buffer;
+      window.process = {
+        env: { NODE_ENV: 'development' }
+      };
+      window.require = () => ({
+        resolve: () => '',
+        cache: {},
+        extensions: {},
+        main: null
+      });
     </script>
   </head>
   <body>

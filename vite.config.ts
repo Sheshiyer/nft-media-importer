@@ -8,8 +8,8 @@ import svgr from 'vite-plugin-svgr';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Development configuration
-const devConfig = {
+// Common configuration
+const commonConfig = {
   plugins: [
     react(),
     svgr()
@@ -22,7 +22,10 @@ const devConfig = {
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
+      '@': resolve(__dirname, './src'),
+      stream: 'stream-browserify',
+      util: 'util',
+      buffer: 'buffer'
     }
   },
   optimizeDeps: {
@@ -39,16 +42,30 @@ const devConfig = {
         require('autoprefixer')
       ]
     }
+  },
+  publicDir: 'public',
+  base: './',
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true
+    }
+  }
+};
+
+// Development configuration
+const devConfig = {
+  ...commonConfig,
+  define: {
+    ...commonConfig.define,
+    'process.env.NODE_ENV': '"development"'
   }
 };
 
 // Production library configuration
 const prodConfig = {
-  plugins: [
-    react(),
-    svgr()
-  ],
+  ...commonConfig,
   build: {
+    ...commonConfig.build,
     lib: {
       entry: resolve(__dirname, 'src/index.tsx'),
       name: 'NFTMediaImporter',
@@ -62,33 +79,14 @@ const prodConfig = {
           react: 'React',
           'react-dom': 'ReactDOM'
         },
-        // Ensure proper exports for Framer plugin capabilities
         exports: 'named' as const,
         preserveModules: true,
-        preserveModulesRoot: 'src'
+        preserveModulesRoot: 'src',
+        assetFileNames: 'assets/[name].[ext]'
       }
     },
     sourcemap: true,
-    cssCodeSplit: false,
-    // Ensure proper handling of Framer plugin features
-    commonjsOptions: {
-      transformMixedEsModules: true,
-      include: [/node_modules/],
-      exclude: [/node_modules\/(@framer|framer)/]
-    }
-  },
-  css: {
-    postcss: {
-      plugins: [
-        require('tailwindcss'),
-        require('autoprefixer')
-      ]
-    }
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src')
-    }
+    cssCodeSplit: false
   }
 };
 

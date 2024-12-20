@@ -5,8 +5,6 @@ import { NFTGrid } from './components/NFTGrid';
 import { ConfirmationScreen } from './components/ConfirmationScreen';
 import { useNFTFetcher } from './hooks/useNFTFetcher';
 import './styles.css';
-const Logo = () => (React.createElement("div", { className: "nft-logo-container" },
-    React.createElement("img", { src: "./assets/logo.svg", alt: "NFT Media Importer", className: "nft-logo" })));
 export function NFTMediaImporter() {
     const [state, setState] = useState({
         provider: null,
@@ -32,21 +30,22 @@ export function NFTMediaImporter() {
         setShowConfirmation(true);
     }, []);
     const handleConfirm = useCallback(async () => {
+        var _a, _b;
         if (!state.selectedNft || !state.address)
             return;
         try {
             // Verify ownership before importing
-            const isOwner = await verifyNFTOwnership(state.address, state.selectedNft.contract.address, state.selectedNft.tokenId);
+            const isOwner = await verifyNFTOwnership(state.address, ((_a = state.selectedNft.contract) === null || _a === void 0 ? void 0 : _a.address) || '', state.selectedNft.tokenId);
             if (!isOwner) {
                 alert('Ownership verification failed. Please try again.');
                 return;
             }
             // Import to Framer's media library
-            await window.$framer.addMedia({
+            await ((_b = window.$framer) === null || _b === void 0 ? void 0 : _b.addMedia({
                 name: state.selectedNft.name || `NFT #${state.selectedNft.tokenId}`,
                 url: state.selectedNft.image,
                 type: 'image'
-            });
+            }));
             setShowConfirmation(false);
             setState(prev => (Object.assign(Object.assign({}, prev), { selectedNft: null })));
             alert('NFT successfully imported to Framer!');
@@ -68,7 +67,6 @@ export function NFTMediaImporter() {
     const renderContent = () => {
         if (!state.provider || !state.address) {
             return (React.createElement("div", { className: "nft-flex nft-flex-col nft-items-center" },
-                React.createElement(Logo, null),
                 React.createElement(MetaMaskLogin, { onConnect: handleConnect })));
         }
         if (loading) {
@@ -76,14 +74,12 @@ export function NFTMediaImporter() {
         }
         if (error) {
             return (React.createElement("div", { className: "nft-p-8 nft-text-center" },
-                React.createElement(Logo, null),
                 React.createElement("div", { className: "nft-text-red-600 nft-mb-4" },
                     "Error: ",
                     error),
                 React.createElement("button", { onClick: handleRetry, className: "nft-btn-primary" }, "Retry")));
         }
         return (React.createElement(React.Fragment, null,
-            React.createElement(Logo, null),
             React.createElement(NFTGrid, { nfts: nfts, onSelect: handleNFTSelect }),
             React.createElement(ConfirmationScreen, { nft: state.selectedNft, isOpen: showConfirmation, onConfirm: handleConfirm, onCancel: handleCancel })));
     };

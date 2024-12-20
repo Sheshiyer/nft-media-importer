@@ -18,7 +18,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-loading-icons": "^1.1.0",
-    "react-masonry-css": "^1.0.16"
+    "react-masonry-css": "^1.0.16",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@types/node": "^20.17.10",
